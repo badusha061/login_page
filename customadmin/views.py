@@ -55,21 +55,25 @@ def edit_views(request):
 
 
 def update_views(request,id):
-    if request.method == 'POST':
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        if first_name.strip() == '':
-            messages.error(request, 'the first name is fields is empty')
-            return redirect('customadmin:admin_panel')
-        user = User.objects.get(id=id) 
-        user.first_name = first_name
-        user.last_name = last_name
-        user.username = username
-        user.email = email
-        user.save()
+    try:
+        if request.method == 'POST':
+            first_name = request.POST.get('first_name')
+            last_name = request.POST.get('last_name')
+            username = request.POST.get('username')
+            email = request.POST.get('email')
+            if first_name.strip() == '':
+                messages.error(request, 'the first name is fields is empty')
+                return redirect('customadmin:admin_panel')
+            user = User.objects.get(id=id) 
+            user.first_name = first_name
+            user.last_name = last_name
+            user.username = username
+            user.email = email
+            user.save()
 
+            return redirect('customadmin:admin_panel')
+    except Exception as e:
+        print(e)
         return redirect('customadmin:admin_panel')
 
 
